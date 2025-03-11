@@ -71,15 +71,26 @@
 
     <script>
         let attempts = 3;
+        let banned = false;
 
         function checkPassword() {
             const password = document.getElementById("password").value;
+            if (banned && password !== "protectedsite") {
+                alert("You are banned. Only an admin can unban you.");
+                return;
+            }
             if (password === "jackpine") {
                 document.getElementById("loginBox").style.display = "none";
                 document.getElementById("content").classList.remove("hidden");
+            } else if (password === "protectedsite") {
+                alert("Admin access granted. You are now unbanned.");
+                banned = false;
+                attempts = 3;
+                location.reload();
             } else {
                 attempts--;
                 if (attempts <= 0) {
+                    banned = true;
                     document.body.innerHTML = "<h1 style='text-align:center; color:red;'>You are banned from this site.</h1>";
                 } else {
                     alert(`Incorrect password. You have ${attempts} attempts left.`);
