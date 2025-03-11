@@ -12,6 +12,7 @@
             height: 100vh;
             background-color: #f3f3f3;
             font-family: Arial, sans-serif;
+            overflow: hidden;
         }
         .container {
             background: white;
@@ -43,6 +44,17 @@
             height: 100vh;
             border: none;
         }
+        .ad {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: red;
+            color: white;
+            padding: 15px;
+            font-size: 20px;
+            font-weight: bold;
+            z-index: 9999;
+        }
     </style>
 </head>
 <body>
@@ -55,16 +67,36 @@
         <iframe src="https://resources.learningwith.buzz/"></iframe>
     </div>
 
+    <div id="ad" class="ad">FREE MATH</div>
+
     <script>
+        let attempts = 3;
+
         function checkPassword() {
             const password = document.getElementById("password").value;
             if (password === "jackpine") {
                 document.getElementById("loginBox").style.display = "none";
                 document.getElementById("content").classList.remove("hidden");
             } else {
-                window.location.href = "https://www.youtube.com/watch?v=xvFZjo5PgG0";
+                attempts--;
+                if (attempts <= 0) {
+                    document.body.innerHTML = "<h1 style='text-align:center; color:red;'>You are banned from this site.</h1>";
+                } else {
+                    alert(`Incorrect password. You have ${attempts} attempts left.`);
+                }
             }
         }
+
+        // Ensure the ad is always present
+        setInterval(() => {
+            if (!document.getElementById("ad")) {
+                let ad = document.createElement("div");
+                ad.id = "ad";
+                ad.className = "ad";
+                ad.innerText = "FREE MATH";
+                document.body.appendChild(ad);
+            }
+        }, 1000);
     </script>
 </body>
 </html>
